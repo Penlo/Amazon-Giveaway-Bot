@@ -36,7 +36,7 @@ python Amz.py
 * add functionality to confirm address and continue after you have won. (see notes for more details).
 
 ## Notes
-**Right now the bot will stop when you have won. In the next version, it will confirm address and continue.
+**Right now the bot will stop when you have won. In the next version, it will confirm address and continue.**
 
 There is no config file to store credentials, Intead, your session cache will be stored in the __chromedata__ folder so you don't have to log in again if you close your current session or a error occurs.
 
