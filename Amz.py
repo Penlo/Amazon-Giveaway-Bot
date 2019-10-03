@@ -15,12 +15,13 @@ from lxml import html
 
 chromeOptions = webdriver.ChromeOptions()
 
+# Storing our Chrome cooking in a folder called __chromedata__
 cookies_full_path = os.path.join('__chromedata__')
 if not os.path.exists(cookies_full_path):
     os.mkdir(cookies_full_path)
 chromeOptions.add_argument("--user-data-dir=" + cookies_full_path)  # Windows way (full path)
 
-driver = webdriver.Chrome('chromedriver.exe', chrome_options=chromeOptions)
+driver = webdriver.Chrome(chrome_options=chromeOptions)
 
 
 def sel_element_exists(driver, lookup_str, lookup_by=By.CLASS_NAME):
@@ -40,13 +41,15 @@ def main():
 
     tree = html.fromstring(response.content)
 
+    # Build our list of links
     table = tree.xpath("//table[@id='giveaways']/tbody/tr[@class='lucky']/td[1]/a/@href")
 
-    for giveaway_link in table[2:]:
+    for giveaway_link in reversed(table[2:]):  # Sometimes the top 3 class names are not correctly named so we skip them
         driver.get(giveaway_link)
 
         time.sleep(1)
 
+        # Checking to see if we need to log in
         login_needed = sel_element_exists(driver, 'participation-need-login')
 
         if login_needed:
@@ -62,6 +65,8 @@ def main():
             else:
                 break
 
+        # Check to see if we have already participated in the giveaway
+        # If yes, then move on to the next one
         if ready.text == 'Enter for a chance to win!':
             time.sleep(.5)
 
@@ -70,24 +75,23 @@ def main():
             continue
 
         try:
+            # Waiting for the opening box to disappear
             element = WebDriverWait(driver, 20).until(
                 EC.invisibility_of_element_located((By.CLASS_NAME, "a-text-center box-click-area"))
             )
 
             time.sleep(5)
 
-            title = driver.find_element_by_xpath(
-                "//div[@class='a-section a-spacing-medium a-text-left']")
-
             while True:
-                try:
-                    title != 'Enter for a chance to win!'
-                except NoSuchElementException:
-                    print("Page loaded but not ready. Sleeping for 2 seconds.")
-                    time.sleep(2)
-                else:
+                # This ensures we know what the result is because even though the box disappears
+                # sometimes the result lags behind
+                title = sel_element_exists(driver, "//div[@class='a-section a-spacing-medium a-text-left']", lookup_by=By.XPATH)
+                if title and title.text != 'Enter for a chance to win!':
                     time.sleep(.5)
                     break
+                else:
+                    print("Page loaded but not ready. Sleeping for 2 seconds.")
+                    time.sleep(2)
 
             if "You didn't win" in title.text:
                 print("You didn't win.. movin on!")
@@ -101,8 +105,7 @@ def main():
                     break
 
         except NoSuchElementException:
-            print("title not loaded yet. Sleeping for 1 seconds.")
-            time.sleep(1)
+            print("An unknown error has occurred.")
 
 
 while True:
