@@ -62,8 +62,8 @@ def main():
                 ready = driver.find_element_by_xpath(
                     "//div[@class='a-section a-spacing-medium a-text-left']")
             except NoSuchElementException:
-                print("Page loaded but not ready. Sleeping for 2 seconds.")
-                time.sleep(2)
+                print("Page loaded but not ready. Sleeping for 1 seconds.")
+                time.sleep(1)
             else:
                 break
 
@@ -82,8 +82,6 @@ def main():
                 EC.invisibility_of_element_located((By.CLASS_NAME, "a-text-center box-click-area"))
             )
 
-            time.sleep(5)
-
             while True:
                 # This ensures we know what the result is because even though the box disappears
                 # sometimes the result lags behind
@@ -92,19 +90,17 @@ def main():
                     time.sleep(.5)
                     break
                 else:
-                    print("Page loaded but not ready. Sleeping for 2 seconds.")
-                    time.sleep(2)
+                    print("Page loaded but not ready. Sleeping for 1 seconds.")
+                    time.sleep(1)
 
             if "You didn't win" in title.text:
                 print("You didn't win.. movin on!")
-                time.sleep(1.5)
+                time.sleep(.5)
                 continue
-            else:
-                time.sleep(5)
-                if 'you won!' in title.text:
-                    print(title.text)
-                    print("You won!")
-                    break
+            elif 'you won!' in title.text:
+                print(title.text)
+                print("You won!")
+                break
 
         except NoSuchElementException:
             print("An unknown error has occurred.")
