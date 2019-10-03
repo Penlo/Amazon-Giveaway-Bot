@@ -20,7 +20,14 @@ if not os.path.exists(cookies_full_path):
     os.mkdir(cookies_full_path)
 chromeOptions.add_argument("--user-data-dir=" + cookies_full_path)  # Windows way (full path)
 
-driver = webdriver.Chrome(chrome_options=chromeOptions)
+driver = webdriver.Chrome('chromedriver.exe', chrome_options=chromeOptions)
+
+
+def sel_element_exists(driver, lookup_str, lookup_by=By.CLASS_NAME):
+    try:
+        return driver.find_element(lookup_by, lookup_str)
+    except:
+        return None
 
 
 def main():
@@ -37,6 +44,13 @@ def main():
 
     for giveaway_link in table[2:]:
         driver.get(giveaway_link)
+
+        time.sleep(1)
+
+        login_needed = sel_element_exists(driver, 'participation-need-login')
+
+        if login_needed:
+            driver.find_element_by_xpath('//span[@class="a-button-inner"]').click()
 
         while True:
             try:
