@@ -44,7 +44,7 @@ def main():
     # Build our list of links
     table = tree.xpath("//table[@id='giveaways']/tbody/tr[@class='lucky']/td[1]/a/@href")
 
-    for giveaway_link in table[2:]:  # Sometimes the top 3 class names are not correctly named so we skip them
+    for giveaway_link in reversed(table[2:]):  # Sometimes the top 3 class names are not correctly named so we skip them
         driver.get(giveaway_link)
 
         time.sleep(1)
