@@ -56,7 +56,7 @@ def main():
         if login_needed:
             driver.find_element_by_xpath('//span[@class="a-button-inner"]').click()
             print('Please log in..')
-            
+
         while True:
             try:
                 ready = driver.find_element_by_xpath(
@@ -71,9 +71,9 @@ def main():
         # If yes, then move on to the next one
         if ready.text == 'Enter for a chance to win!':
             time.sleep(.5)
-
             driver.find_element_by_xpath("//*[@class='a-text-center box-click-area']").click()
         else:
+            print('You already participated in this giveaway. Moving on.')
             continue
 
         try:
