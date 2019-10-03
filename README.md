@@ -2,7 +2,7 @@
 
 This bot loops through all the Amazon instant-win giveaways and submits entries.
 
-Join our discord for help or general discussions
+Join our [Discord](https://discord.gg/8gXGcFh) for help or general discussions
 
 ![Discord](https://img.shields.io/discord/629429780822884354)
 
