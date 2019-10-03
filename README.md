@@ -28,7 +28,7 @@ python Amz.py
 
 ## Notes
 
-There is no config file. Intead of using a file to log in, your session cache will be stored in the __chromedata__ folder so you don't have to log in again if you close your current session or a error occurs.
+There is no config file to store credentials, Intead, your session cache will be stored in the __chromedata__ folder so you don't have to log in again if you close your current session or a error occurs.
 
 ## Issues
 If you run into any issues please submit it
