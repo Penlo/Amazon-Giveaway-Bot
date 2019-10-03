@@ -331,13 +331,3 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-
-# QBO Data Access
-QBOnline/*.csv
-QBOnline/*.json
-QBOnline/*.pickle
-QBOnline/config.py
-
-# Util
-util/config.py
-chromedriver.exe
