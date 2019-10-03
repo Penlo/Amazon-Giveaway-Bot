@@ -4,6 +4,7 @@ This bot loops through all the Amazon instant-win giveaways and submits entries.
 
 I will be adding the Video and follow giveaways in a later version.
 
+![Discord](https://img.shields.io/discord/629429780822884354)
 
 ### Installing
 All testing was done on Python 3.6.7
