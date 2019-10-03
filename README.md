@@ -22,6 +22,10 @@ pip install -r requirements.txt
 
 You are ready to run the bot.
 
+```
+python Amz.py
+```
+
 ## Issues
 If you run into any issues please submit it
 **[HERE](https://github.com/Penlo/Amazon-Giveaway-Bot/issues)**
