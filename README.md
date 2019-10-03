@@ -7,7 +7,7 @@ Join our discord for help or general discussions
 ![Discord](https://img.shields.io/discord/629429780822884354)
 
 ### Installing
-All testing was done on Python 3.6.7
+All testing was done on Python [3.6.7](https://www.python.org/downloads/release/python-367/)
 
 * Clone or Download
 
