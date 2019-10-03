@@ -1,0 +1,6 @@
+chromedriver-binary==77.0.3865.40
+lxml==4.2.5
+requests==2.20.1
+selenium==3.14.0
+urllib3==1.23
+

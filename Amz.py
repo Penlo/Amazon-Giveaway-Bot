@@ -21,7 +21,7 @@ if not os.path.exists(cookies_full_path):
     os.mkdir(cookies_full_path)
 chromeOptions.add_argument("--user-data-dir=" + cookies_full_path)  # Windows way (full path)
 
-driver = webdriver.Chrome('chromedriver.exe', chrome_options=chromeOptions)
+driver = webdriver.Chrome(chrome_options=chromeOptions)
 
 
 def sel_element_exists(driver, lookup_str, lookup_by=By.CLASS_NAME):
