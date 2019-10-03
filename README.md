@@ -21,7 +21,7 @@ cd C:\Users\YourUserName\Documents\GitHub\Amazon-Giveaway-Bot
 pip install -r requirements.txt
 ```
 
-You are ready to run the bot.
+* You are ready to run the bot.
 
 ```
 python Amz.py
