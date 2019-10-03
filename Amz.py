@@ -45,6 +45,7 @@ def main():
     table = tree.xpath("//table[@id='giveaways']/tbody/tr[@class='lucky']/td[1]/a/@href")
 
     for giveaway_link in reversed(table[2:]):  # Sometimes the top 3 class names are not correctly named so we skip them
+        print(f'Opening Giveaway link: {giveaway_link}')
         driver.get(giveaway_link)
 
         time.sleep(1)
@@ -54,7 +55,8 @@ def main():
 
         if login_needed:
             driver.find_element_by_xpath('//span[@class="a-button-inner"]').click()
-
+            print('Please log in..')
+            
         while True:
             try:
                 ready = driver.find_element_by_xpath(
