@@ -2,7 +2,7 @@
 
 This bot loops through all the Amazon instant-win giveaways and submits entries.
 
-I will be adding the Video and follow giveaways in a later version.
+Join our discord for help or general discussions
 
 ![Discord](https://img.shields.io/discord/629429780822884354)
 
@@ -27,12 +27,18 @@ You are ready to run the bot.
 python Amz.py
 ```
 
+## TODO
+
+* Video giveaways - **v1.1**
+* add functionality to remember giveaways already entered to save time. **v1.1**
+* Follow giveaways - **v1.2**
+
 ## Notes
 
 There is no config file to store credentials, Intead, your session cache will be stored in the __chromedata__ folder so you don't have to log in again if you close your current session or a error occurs.
 
 ## Issues
-If you run into any issues please submit it
+If you run into any errors please submit it to the Issue Tracker
 **[HERE](https://github.com/Penlo/Amazon-Giveaway-Bot/issues)**
 
 
