@@ -340,3 +340,4 @@ QBOnline/config.py
 
 # Util
 util/config.py
+chromedriver.exe
