@@ -9,8 +9,6 @@ This bot loops through all the Amazon instant-win giveaways and submits entries.
 Join our [Discord](https://discord.gg/8gXGcFh) for help or general discussions
 
 
-![10-2-2019 Win](https://media.discordapp.net/attachments/629433623120052264/629443877136367686/2019-10-02.png)
-
 ### Installing
 All testing was done on Python [3.6.7](https://www.python.org/downloads/release/python-367/)
 
@@ -68,3 +66,6 @@ If you run into any errors please submit it to the Issue Tracker
 See also the list of [contributors](https://github.com/Penlo/Amazon-Giveaway-Bot/contributors) who participated in this project.
 
 * Hat tip to **[bitey-mouse](https://github.com/bitey-mouse)**
+
+
+![10-2-2019 Win](https://media.discordapp.net/attachments/629433623120052264/629443877136367686/2019-10-02.png)
