@@ -6,6 +6,7 @@ Join our [Discord](https://discord.gg/8gXGcFh) for help or general discussions
 
 ![Discord](https://img.shields.io/discord/629429780822884354)
 
+
 ![10-2-2019 Win](https://media.discordapp.net/attachments/629433623120052264/629443877136367686/2019-10-02.png)
 
 ### Installing
