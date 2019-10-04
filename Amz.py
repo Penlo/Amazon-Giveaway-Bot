@@ -15,7 +15,6 @@ from selenium.common.exceptions import InvalidArgumentException
 from selenium.common.exceptions import NoSuchElementException
 
 
-
 chromeOptions = webdriver.ChromeOptions()
 
 # Storing our Chrome cookies in a subfolder called __chromedata__
@@ -42,6 +41,50 @@ def pause_small():
     time.sleep(1)
 
 
+def give_away_type(driver):
+    try:
+        js = 'document.getElementsByClassName("video")[0].play();'
+        driver.execute_script(js)
+        pause_small()
+        submit = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//button[@class="a-button a-button-primary amazon-video-continue-button"]'))
+        )
+        submit.click()
+    except:
+        try:
+            js = 'document.evaluate("//div[@class=\'youtube-video\']/a", document.body, null, 9, null). singleNodeValue.click();'
+            driver.execute_script(js)
+            pause_small()
+            submit = WebDriverWait(driver, 20).until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//button[@class="a-button a-button-primary youtube-continue-button"]'))
+            )
+            submit.click()
+        except:
+            print('No videos found!')
+    else:
+        try:
+            js = 'document.getElementsByClassName("video")[0].play();'
+            driver.execute_script(js)
+            pause_small()
+            submit = WebDriverWait(driver, 20).until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//button[@class="a-button a-button-primary amazon-video-continue-button"]'))
+            )
+            submit.click()
+        except:
+            try:
+                driver.find_element(By.XPATH, '//*[@class="a-text-center box-click-area"]').click()
+            except:
+                print("Weird, there should be a box here.")
+    finally:
+        print('Waiting for the opening box to disappear')
+        WebDriverWait(driver, 20).until(
+            EC.invisibility_of_element_located((By.CLASS_NAME, 'a-text-center box-click-area'))
+        )
+
+
 def main():
     you_won = False
 
@@ -55,10 +98,16 @@ def main():
     tree = html.fromstring(response.content)
 
     print('Aquiring list of giveway links...')
-    table = tree.xpath('//table[@id="giveaways"]/tbody/tr[@class="lucky"]/td[1]/a/@href')
+    table = tree.xpath('//table[@id="giveaways"]/tbody/tr[@class="lucky video"]/td[1]/a/@href')
     print("Finished! Let's get started!\n")
+
     # Sometimes the top 3 class names are not correctly named so we skip them
     fresh_links = table[2:]
+
+    if len(fresh_links) == 0:
+        time.sleep(3600)  # Sleep for one hour
+        return False
+
     # Reverse list because giveaways ending soonest are in the end of the list
     fresh_links.reverse()
 
@@ -89,7 +138,16 @@ def main():
                 driver.find_element(By.XPATH, '//span[@class="a-button-inner"]').click()
                 print('Please log in...')
 
+            # Checking to see if the giveaway has ended
+            try:
+                ended_check = driver.find_element_by_xpath('//div[@class="a-section a-spacing-medium a-padding-base not-active"]')
+                if ended_check:
+                    continue
+            except NoSuchElementException:
+                pass
+
             print('Waiting for page load to complete')
+            pause_small()
             ready = WebDriverWait(driver, 20).until(
                 EC.visibility_of_element_located(
                     (By.XPATH, '//div[@class="a-section a-spacing-medium a-text-left"]'))
@@ -105,15 +163,10 @@ def main():
             # Check to see if we have already participated in the giveaway
             if ready.text == 'Enter for a chance to win!':
                 pause_mini()
-                driver.find_element(By.XPATH, '//*[@class="a-text-center box-click-area"]').click()
+                give_away_type(driver)
             else:
                 print('You already participated in this giveaway. Moving on.')
                 continue
-
-            print ('Waiting for the opening box to disappear')            
-            WebDriverWait(driver, 20).until(
-                EC.invisibility_of_element_located((By.CLASS_NAME, 'a-text-center box-click-area'))
-            )
 
             while True:
                 # This ensures we know what the result is because even though the box disappears
