@@ -1,11 +1,13 @@
-# Amazon-Giveaway-Bot v1.0
+# Amazon-Giveaway-Bot v1.1
 
 This bot loops through all the Amazon instant-win giveaways and submits entries.
 
+### **v1.1 functionality changes**
+* Utilization of pickle files to remember givesaways that have already been entered.
+
+
 Join our [Discord](https://discord.gg/8gXGcFh) for help or general discussions
 
-
-![10-2-2019 Win](https://media.discordapp.net/attachments/629433623120052264/629443877136367686/2019-10-02.png)
 
 ### Installing
 All testing was done on Python [3.6.7](https://www.python.org/downloads/release/python-367/)
@@ -15,8 +17,6 @@ All testing was done on Python [3.6.7](https://www.python.org/downloads/release/
 If you don't have Python installed you can follow the link above.\
 Scoll to the bottom of the page and find **Windows x86-64 web-based installer**
 
-If you don't have pip installed you will need it.\
-[Here](https://pip.pypa.io/en/stable/installing/) is a guide for installation.
 
 #### Start here if you are not new to Python
 
@@ -43,7 +43,7 @@ python Amz.py
 
 * add Video giveaways
 * add Follow giveaways
-* add functionality to remember giveaways already entered to save time.
+* ~~add functionality to remember giveaways already entered to save time.~~ **added in v1.1**
 * add functionality to send email notification when you have won. 
 * add functionality to confirm address and continue after you have won. (see notes for more details).
 
@@ -66,3 +66,6 @@ If you run into any errors please submit it to the Issue Tracker
 See also the list of [contributors](https://github.com/Penlo/Amazon-Giveaway-Bot/contributors) who participated in this project.
 
 * Hat tip to **[bitey-mouse](https://github.com/bitey-mouse)**
+
+
+![10-2-2019 Win](https://media.discordapp.net/attachments/629433623120052264/629443877136367686/2019-10-02.png)
