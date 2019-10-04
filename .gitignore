@@ -334,3 +334,4 @@ ASALocalRun/
 
 .gitattributes
 
+*.pickle
