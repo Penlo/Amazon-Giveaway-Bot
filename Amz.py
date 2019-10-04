@@ -43,6 +43,8 @@ def pause_small():
 
 
 def main():
+    you_won = False
+
     # Grab all the links
     url = 'https://giveawaylisting.com/index2.html'
     urllib3.disable_warnings()
@@ -131,6 +133,7 @@ def main():
             elif 'you won!' in title.text:
                 print(title.text)
                 print('You won!')
+                you_won = True
                 break
         except InvalidArgumentException as e:
             raise e
@@ -142,8 +145,12 @@ def main():
 
     # Finished with fresh_links. Store all attempted links for later
     pickle.dump(past_links, open(PICKLE_FILE_PATH, 'wb'))
+    return you_won
+
 
 if __name__ == '__main__':
-    
+
     while True:
-        main()
+        if main():
+            print('Yay! I won!')
+            break
