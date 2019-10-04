@@ -9,6 +9,17 @@ Join our [Discord](https://discord.gg/8gXGcFh) for help or general discussions
 ### Installing
 All testing was done on Python [3.6.7](https://www.python.org/downloads/release/python-367/)
 
+#### New to Python and botting? Start here*
+
+If you don't have Python installed you can follow the link above.\
+Scoll to the bottom of the page and find **Windows x86-64 web-based installer**
+
+If you don't have pip installed you will need it.\
+[Here](https://pip.pypa.io/en/stable/installing/) is a guide for installation.
+
+#### Start here if you are not new to Python
+
+
 * Clone or Download
 
 * Open command prompt
