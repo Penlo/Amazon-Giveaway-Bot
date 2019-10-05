@@ -1,8 +1,8 @@
-# Amazon-Giveaway-Bot v1.1
+# Amazon-Giveaway-Bot v1.2
 
-This bot loops through all the Amazon instant-win giveaways and submits entries.
+This bot loops through all the Amazon instant-win and video giveaways and submits entries.
 
-### **v1.1 functionality changes**
+### **v1.2 functionality changes**
 * Utilization of pickle files to remember givesaways that have already been entered.
 
 
@@ -41,7 +41,7 @@ python Amz.py
 
 ## TODO
 
-* add Video giveaways
+* ~~add Video giveaways~~ **added in v1.2**
 * add Follow giveaways
 * ~~add functionality to remember giveaways already entered to save time.~~ **added in v1.1**
 * add functionality to send email notification when you have won. 
