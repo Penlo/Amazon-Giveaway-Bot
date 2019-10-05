@@ -41,37 +41,66 @@ def pause_small():
     time.sleep(1)
 
 
-def give_away_type(driver):
+def amazon_video(driver):
+    # Checking if its an Amazon Video. If it is then execute
     try:
         driver.find_element(By.XPATH, '//div[@class="amazon-video"]').click()
         pause_small()
+        print('Waiting for button to be clickable')
         submit = WebDriverWait(driver, 20).until(
             EC.element_to_be_clickable(
                 (By.XPATH, '//button[@class="a-button a-button-primary amazon-video-continue-button"]'))
         )
         submit.click()
     except:
-        try:
-            js = 'document.evaluate("//div[@class=\'youtube-video\']/a", document.body, null, 9, null). singleNodeValue.click();'
-            driver.execute_script(js)
-            pause_small()
-            submit = WebDriverWait(driver, 20).until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, '//button[@class="a-button a-button-primary youtube-continue-button"]'))
-            )
-            submit.click()
-        except:
-            try:
-                driver.find_element(By.XPATH, '//*[@class="a-text-center box-click-area"]').click()
-            except:
-                print('Could not determine giveaway type')
-                x = 1
-                return x
-    finally:
-        print('Waiting for the opening box to disappear')
-        WebDriverWait(driver, 30).until(
-            EC.invisibility_of_element_located((By.CLASS_NAME, 'a-text-center box-click-area'))
+        return False
+
+
+def youtube_video(driver):
+    # Test if its an Youtube Video. If it is then execute
+    try:
+        js = 'document.evaluate("//div[@class=\'youtube-video\']/a", document.body, null, 9, null). singleNodeValue.click();'
+        driver.execute_script(js)
+        pause_small()
+        submit = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//button[@class="a-button a-button-primary youtube-continue-button"]'))
         )
+        submit.click()
+    except:
+        return False
+
+
+def instant_box(driver):
+    # Test if its an Instant win box. If it is then execute
+    try:
+        driver.find_element(By.XPATH, '//*[@class="a-text-center box-click-area"]').click()
+        pause_small()
+    except:
+        return False
+
+
+def give_away_type(driver):
+    ga_type = 0
+    # Checking if its an Amazon Video
+    try:
+        driver.find_element(By.XPATH, '//div[@class="amazon-video"]')
+        ga_type = 1
+        return ga_type
+    except:
+        # Checking if its a Youtube Video
+        try:
+            driver.find_element(By.XPATH, '//div[@class="youtube-video"]')
+            ga_type = 2
+            return ga_type
+        except:
+            # Checking if its an Instant Win box
+            try:
+                driver.find_element(By.XPATH, '//*[@class="a-text-center box-click-area"]')
+                ga_type = 3
+                return ga_type
+            except:
+                return ga_type
 
 
 def main():
@@ -94,6 +123,7 @@ def main():
     # Sometimes the top 3 class names are not correctly named so we skip them
     fresh_links = table[2:]
 
+    # If zero links available then sleep for one hour.
     if len(fresh_links) == 0:
         time.sleep(3600)  # Sleep for one hour
         return False
@@ -129,12 +159,9 @@ def main():
                 print('Please log in...')
 
             # Checking to see if the giveaway has ended
-            try:
-                ended_check = driver.find_element_by_xpath('//div[@class="a-section a-spacing-medium a-padding-base not-active"]')
-                if ended_check:
-                    continue
-            except NoSuchElementException:
-                pass
+            ended_check = element_exists(driver, 'a-section a-spacing-medium a-padding-base not-active')
+            if ended_check:
+                continue
 
             print('Waiting for page load to complete')
             pause_small()
@@ -152,10 +179,26 @@ def main():
 
             # Check to see if we have already participated in the giveaway
             if ready.text == 'Enter for a chance to win!':
-                # Check Giveaway Type and run
-                ga_type = give_away_type(driver)
-                if ga_type == 1:
+                # Check type of Giveaway and run
+                ga_run = give_away_type(driver)
+                if ga_run == 1:
+                    print('Playing Amazon Video')
+                    amazon_video(driver)
+                elif ga_run == 2:
+                    print('Playing Youtube Video')
+                    youtube_video(driver)
+                elif ga_run == 3:
+                    print('Opening Box')
+                    instant_box(driver)
+                else:
+                    print("Could not determine type of Giveaway. Moving on..")
                     continue
+
+                print('Waiting for the box to disappear')
+                WebDriverWait(driver, 30).until(
+                    EC.invisibility_of_element_located((By.CLASS_NAME, 'a-text-center box-click-area'))
+                )
+
             else:
                 print('You already participated in this giveaway. Moving on.')
                 continue
