@@ -43,8 +43,7 @@ def pause_small():
 
 def give_away_type(driver):
     try:
-        js = 'document.getElementsByClassName("video")[0].play();'
-        driver.execute_script(js)
+        driver.find_element(By.XPATH, '//div[@class="amazon-video"]').click()
         pause_small()
         submit = WebDriverWait(driver, 20).until(
             EC.element_to_be_clickable(
@@ -62,25 +61,15 @@ def give_away_type(driver):
             )
             submit.click()
         except:
-            print('No videos found!')
-    else:
-        try:
-            js = 'document.getElementsByClassName("video")[0].play();'
-            driver.execute_script(js)
-            pause_small()
-            submit = WebDriverWait(driver, 20).until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, '//button[@class="a-button a-button-primary amazon-video-continue-button"]'))
-            )
-            submit.click()
-        except:
             try:
                 driver.find_element(By.XPATH, '//*[@class="a-text-center box-click-area"]').click()
             except:
-                print("Weird, there should be a box here.")
+                print('Could not determine giveaway type')
+                x = 1
+                return x
     finally:
         print('Waiting for the opening box to disappear')
-        WebDriverWait(driver, 20).until(
+        WebDriverWait(driver, 30).until(
             EC.invisibility_of_element_located((By.CLASS_NAME, 'a-text-center box-click-area'))
         )
 
@@ -98,7 +87,8 @@ def main():
     tree = html.fromstring(response.content)
 
     print('Aquiring list of giveway links...')
-    table = tree.xpath('//table[@id="giveaways"]/tbody/tr[@class="lucky video"]/td[1]/a/@href')
+    table = tree.xpath('//table[@id="giveaways"]/tbody/tr[@class="lucky video" or @class="lucky"]/td[1]/a/@href')
+
     print("Finished! Let's get started!\n")
 
     # Sometimes the top 3 class names are not correctly named so we skip them
@@ -162,8 +152,10 @@ def main():
 
             # Check to see if we have already participated in the giveaway
             if ready.text == 'Enter for a chance to win!':
-                pause_mini()
-                give_away_type(driver)
+                # Check Giveaway Type and run
+                ga_type = give_away_type(driver)
+                if ga_type == 1:
+                    continue
             else:
                 print('You already participated in this giveaway. Moving on.')
                 continue
