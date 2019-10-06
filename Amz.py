@@ -123,11 +123,6 @@ def main():
     # Sometimes the top 3 class names are not correctly named so we skip them
     fresh_links = table[2:]
 
-    # If zero links available then sleep for one hour.
-    if len(fresh_links) == 0:
-        time.sleep(3600)  # Sleep for one hour
-        return False
-
     # Reverse list because giveaways ending soonest are in the end of the list
     fresh_links.reverse()
 
@@ -147,6 +142,11 @@ def main():
         fresh_links = [item for item in fresh_links if item not in past_links]  # This method preserves order
     
     for i, giveaway_link in enumerate(fresh_links):
+        # If zero links available then sleep for one hour.
+        if len(fresh_links) == 0:
+            print('No giveaways, sleeping for one hour')
+            time.sleep(3600)  # Sleep for one hour
+            return False
         try:
             print(f'Opening Giveaway link: {giveaway_link}  ({i+1} of {len(fresh_links)})')
             driver.get(giveaway_link)
