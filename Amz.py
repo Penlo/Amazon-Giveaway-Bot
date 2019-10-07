@@ -141,12 +141,13 @@ def main():
         # Remove attempted links: remove from fresh_links what IS in past_links
         fresh_links = [item for item in fresh_links if item not in past_links]  # This method preserves order
     
+	# If zero links available then sleep for one hour.
+    if len(fresh_links) == 0:
+        print('No giveaways, sleeping for one hour')
+        time.sleep(3600)  # Sleep for one hour
+        return False
+	
     for i, giveaway_link in enumerate(fresh_links):
-        # If zero links available then sleep for one hour.
-        if len(fresh_links) == 0:
-            print('No giveaways, sleeping for one hour')
-            time.sleep(3600)  # Sleep for one hour
-            return False
         try:
             print(f'Opening Giveaway link: {giveaway_link}  ({i+1} of {len(fresh_links)})')
             driver.get(giveaway_link)
