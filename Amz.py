@@ -103,6 +103,19 @@ def give_away_type(driver):
                 return ga_type
 
 
+def confirm_address(driver):
+    # This will click the "confirm address" button for you
+    try:
+        driver.find_element(By.XPATH, '//input[@name="ShipMyPrize"]')
+        submit = WebDriverWait(driver, 20).until(
+			EC.element_to_be_clickable(
+				(By.XPATH, '//input[@name="ShipMyPrize"]'))
+		)
+        submit.click()
+    except:
+        return False
+
+
 def main():
     you_won = False
 
@@ -222,8 +235,11 @@ def main():
             elif 'you won!' in title.text:
                 print(title.text)
                 print('You won!')
+                # Call the confirm_address func and 'continue' instead of 'breaking'
+                confirm_address(driver)
+                time.sleep(60)
                 you_won = True
-                break
+                continue
         except InvalidArgumentException as e:
             raise e
 
@@ -243,3 +259,4 @@ if __name__ == '__main__':
         if main():
             print('Yay! I won!')
             break
+			
