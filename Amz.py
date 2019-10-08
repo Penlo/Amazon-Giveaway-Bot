@@ -113,6 +113,7 @@ def confirm_address(driver):
 				(By.XPATH, '//input[@name="ShipMyPrize"]'))
 		)
         submit.click()
+        return True
     except:
         return False
 
@@ -242,7 +243,7 @@ def main():
                     time.sleep(15)
                     continue
                 else:
-                    break
+                    return True
         except InvalidArgumentException as e:
             raise e
 
