@@ -235,11 +235,13 @@ def main():
             elif 'you won!' in title.text:
                 print(title.text)
                 print('You won!')
-                # Call the confirm_address func and 'continue' instead of 'breaking'
-                confirm_address(driver)
-                time.sleep(60)
-                you_won = True
-                continue
+                # Call the confirm_address function
+                if confirm_address(driver):
+                    # If you win, will continue; exit if issue occurred.
+                    time.sleep(15)
+                    continue
+                elif:
+                    break
         except InvalidArgumentException as e:
             raise e
 
