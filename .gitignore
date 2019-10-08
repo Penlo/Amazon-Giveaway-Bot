@@ -300,6 +300,8 @@ __pycache__/
 
 # Chrome browser cache.
 __chromedata__/
+__chromedata*__/
+__chromedata__*/
 
 # Cake - Uncomment if you are using it
 # tools/**
@@ -335,3 +337,4 @@ ASALocalRun/
 .gitattributes
 
 *.pickle
+*.pickle*

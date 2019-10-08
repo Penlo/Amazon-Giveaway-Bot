@@ -23,6 +23,7 @@ if not os.path.exists(cookies_full_path):
     os.mkdir(cookies_full_path)
 # chromeOptions.add_argument('--user-data-dir=chrome-data')         # Linux way
 chromeOptions.add_argument('--user-data-dir=' + cookies_full_path)  # Windows way (full path)
+chromeOptions.add_argument('--mute-audio')
 driver = webdriver.Chrome(chrome_options=chromeOptions)
 
 
@@ -101,6 +102,20 @@ def give_away_type(driver):
                 return ga_type
             except:
                 return ga_type
+
+
+def confirm_address(driver):
+    # This will click the "confirm address" button for you
+    try:
+        driver.find_element(By.XPATH, '//input[@name="ShipMyPrize"]')
+        submit = WebDriverWait(driver, 20).until(
+			EC.element_to_be_clickable(
+				(By.XPATH, '//input[@name="ShipMyPrize"]'))
+		)
+        submit.click()
+        return True
+    except:
+        return False
 
 
 def main():
@@ -222,8 +237,13 @@ def main():
             elif 'you won!' in title.text:
                 print(title.text)
                 print('You won!')
-                you_won = True
-                break
+                # Call the confirm_address function
+                if confirm_address(driver):
+                    # If you win, will continue; exit if issue occurred.
+                    time.sleep(15)
+                    continue
+                else:
+                    return True
         except InvalidArgumentException as e:
             raise e
 
@@ -243,3 +263,4 @@ if __name__ == '__main__':
         if main():
             print('Yay! I won!')
             break
+			
