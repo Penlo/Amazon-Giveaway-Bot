@@ -23,6 +23,7 @@ if not os.path.exists(cookies_full_path):
     os.mkdir(cookies_full_path)
 # chromeOptions.add_argument('--user-data-dir=chrome-data')         # Linux way
 chromeOptions.add_argument('--user-data-dir=' + cookies_full_path)  # Windows way (full path)
+chrome_options.add_argument('--mute-audio')
 driver = webdriver.Chrome(chrome_options=chromeOptions)
 
 
