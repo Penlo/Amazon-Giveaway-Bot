@@ -45,7 +45,7 @@ python Amz.py
 * add Follow giveaways
 * ~~add functionality to remember giveaways already entered to save time.~~ **added in v1.1**
 * add functionality to send email notification when you have won. 
-* ~~add functionality to confirm address and continue after you have won.~~ **added in v1.2.4
+* ~~add functionality to confirm address and continue after you have won.~~ **added in v1.2.4**
 
 ## Notes
 
