@@ -1,4 +1,6 @@
-# Amazon-Giveaway-Bot v1.2.5
+# Amazon-Giveaway-Bot v1.2.6
+
+![GitHub](https://img.shields.io/github/license/Penlo/Amazon-Giveaway-Bot)
 
 This bot loops through all the Amazon instant-win and video giveaways and submits entries.
 
