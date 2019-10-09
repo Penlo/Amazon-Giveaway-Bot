@@ -1,10 +1,9 @@
-# Amazon-Giveaway-Bot v1.2.4
+# Amazon-Giveaway-Bot v1.2.5
 
 This bot loops through all the Amazon instant-win and video giveaways and submits entries.
 
-### **v1.2 functionality changes**
-* Utilization of pickle files to remember givesaways that have already been entered.
-
+### **v1.2.5 functionality changes**
+* Added discord webhook integration to the code so it post wins in the winner-log
 
 Join our [Discord](https://discord.gg/8gXGcFh) for help or general discussions
 
