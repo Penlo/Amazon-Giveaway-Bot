@@ -43,13 +43,17 @@ def pause_small():
     time.sleep(1)
 
 
+def pause_medium():
+    time.sleep(2)
+
+
 def amazon_video(driver):
     # Checking if its an Amazon Video. If it is then execute
     try:
         driver.find_element(By.XPATH, '//div[@class="amazon-video"]').click()
         pause_small()
         print('Waiting for button to be clickable')
-        submit = WebDriverWait(driver, 20).until(
+        submit = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable(
                 (By.XPATH, '//button[@class="a-button a-button-primary amazon-video-continue-button"]'))
         )
@@ -64,7 +68,7 @@ def youtube_video(driver):
         js = 'document.evaluate("//div[@class=\'youtube-video\']/a", document.body, null, 9, null). singleNodeValue.click();'
         driver.execute_script(js)
         pause_small()
-        submit = WebDriverWait(driver, 20).until(
+        submit = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable(
                 (By.XPATH, '//button[@class="a-button a-button-primary youtube-continue-button"]'))
         )
@@ -173,7 +177,16 @@ def main():
             login_needed = element_exists(driver, 'participation-need-login')
             if login_needed:
                 driver.find_element(By.XPATH, '//span[@class="a-button-inner"]').click()
+                pause_mini()
                 print('Please log in...')
+                while True:
+                    ga_image = element_exists(driver, 'a-section a-text-center prize-image')
+                    if ga_image:
+                        pause_mini()
+                        break
+                    else:
+                        print('Waiting for login. Sleeping for 2 seconds')
+                        pause_medium()
 
             # Checking to see if the giveaway has ended
             ended_check = element_exists(driver, 'a-section a-spacing-medium a-padding-base not-active')
@@ -182,7 +195,7 @@ def main():
 
             print('Waiting for page load to complete')
             pause_small()
-            ready = WebDriverWait(driver, 20).until(
+            ready = WebDriverWait(driver, 30).until(
                 EC.visibility_of_element_located(
                     (By.XPATH, '//div[@class="a-section a-spacing-medium a-text-left"]'))
             )
@@ -193,29 +206,30 @@ def main():
                 # Store all attempted links for later - write this every 50 iterations
                 print(f'--- Dumping attempted links to pickle:  {PICKLE_FILE_PATH}')
                 pickle.dump(past_links, open(PICKLE_FILE_PATH, 'wb'))
+                pause_small()
 
             # Check to see if we have already participated in the giveaway
             if ready.text == 'Enter for a chance to win!':
+                pause_small()
                 # Check type of Giveaway and run
                 ga_run = give_away_type(driver)
                 if ga_run == 1:
                     print('Playing Amazon Video')
+                    pause_medium()
                     amazon_video(driver)
                 elif ga_run == 2:
                     print('Playing Youtube Video')
+                    pause_medium()
                     youtube_video(driver)
                 elif ga_run == 3:
                     print('Opening Box')
+                    pause_medium()
                     instant_box(driver)
                 else:
                     print("Could not determine type of Giveaway. Moving on..")
                     continue
 
                 print('Waiting for the box to disappear')
-                WebDriverWait(driver, 30).until(
-                    EC.invisibility_of_element_located((By.CLASS_NAME, 'a-text-center box-click-area'))
-                )
-
             else:
                 print('You already participated in this giveaway. Moving on.')
                 continue
@@ -238,16 +252,16 @@ def main():
             elif 'you won!' in title.text:
                 print(title.text)
                 print('You won!')
+                # Discord Webhook; Alert the discord someone has won a giveaway
+                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/631290515626655764/'
+                                             'agWlfyxrzgaUlBEZ8trMf3YdUjQEZYSkoMuXk0ZOwGJLOIWrxxfnMCLfUFETOvy0xulW'
+                                         , content=f'An AGB user has won a giveaway! {giveaway_link}')
+                webhook.execute()
+                pause_small()
                 # Call the confirm_address function
                 if confirm_address(driver):
                     # If you win, will continue; exit if issue occurred.
                     time.sleep(15)
-                    # Discord Webhook; Alert the discord someone has won a giveaway
-                    # replace 'User' with your discord
-                    webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/631290515626655764/'
-                                                 'agWlfyxrzgaUlBEZ8trMf3YdUjQEZYSkoMuXk0ZOwGJLOIWrxxfnMCLfUFETOvy0xulW'
-                                             , content=f'An AGB user has won a giveaway! {giveaway_link}')
-                    webhook.execute()
                     pause_small()
                     continue
                 else:
