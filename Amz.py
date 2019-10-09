@@ -4,6 +4,7 @@ import pickle
 import urllib3
 import time
 
+from discord_webhook import DiscordWebhook
 from lxml import etree
 from lxml import html
 from requests import get
@@ -109,9 +110,9 @@ def confirm_address(driver):
     try:
         driver.find_element(By.XPATH, '//input[@name="ShipMyPrize"]')
         submit = WebDriverWait(driver, 20).until(
-			EC.element_to_be_clickable(
-				(By.XPATH, '//input[@name="ShipMyPrize"]'))
-		)
+            EC.element_to_be_clickable(
+                (By.XPATH, '//input[@name="ShipMyPrize"]'))
+        )
         submit.click()
         return True
     except:
@@ -241,6 +242,13 @@ def main():
                 if confirm_address(driver):
                     # If you win, will continue; exit if issue occurred.
                     time.sleep(15)
+                    # Discord Webhook; Alert the discord someone has won a giveaway
+                    # replace 'User' with your discord
+                    webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/631290515626655764/'
+                                                 'agWlfyxrzgaUlBEZ8trMf3YdUjQEZYSkoMuXk0ZOwGJLOIWrxxfnMCLfUFETOvy0xulW'
+                                             , content=f'An AGB user has won a giveaway! {giveaway_link}')
+                    webhook.execute()
+                    pause_small()
                     continue
                 else:
                     return True
@@ -263,4 +271,4 @@ if __name__ == '__main__':
         if main():
             print('Yay! I won!')
             break
-			
+
