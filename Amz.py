@@ -180,11 +180,11 @@ def main():
                 pause_mini()
                 print('Please log in...')
                 while True:
-                    ga_image = element_exists(driver, 'a-section a-text-center prize-image')
-                    if ga_image:
-                        pause_mini()
-                        break
-                    else:
+                    try:
+                        ga_image = driver.find_element_by_xpath("//*[@class='a-section a-text-center prize-image']")
+                        if ga_image:
+                            break
+                    except NoSuchElementException:
                         print('Waiting for login. Sleeping for 2 seconds')
                         pause_medium()
 
